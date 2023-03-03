@@ -1594,4 +1594,29 @@ function getData(url, headers, httpMethot, data) {
     return usuarios;
 }
 
-export default getData;
+function getUsuario(id){
+    let id2=parseInt(id)
+    let result={};
+    // for (let i=0; i<usuarios.length;i++){
+    //     if (usuarios[i].id === id){
+    //         result=usuarios[i];
+    //         break;
+    //     }
+    // }
+    usuarios.map(function(value,_index){
+        
+        if (value["id"]===id2){
+       
+            result=value;
+          
+        
+            
+        }
+        return result;
+
+    })
+    
+    return result;
+
+}
+export {getData, getUsuario};

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import edit from "./edit.png"
+
+
 function ActualizarTools(props){
     let url =props.path + "/update/"+props.id;
     return(

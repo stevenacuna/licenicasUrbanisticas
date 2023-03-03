@@ -1,4 +1,4 @@
-import getData from "../../js/getData";
+import {getData} from "../../js/getData";
 import MainPage from "../table/MainPage";
 
 function UsuariosIndex(props) {
