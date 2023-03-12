@@ -1,46 +1,70 @@
 import { useParams } from "react-router-dom";
-import { getUsuario } from "../../js/getData";
+import { getRequest } from "../../js/getData";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import backendConfig from "../../backendConfig";
 
 let objetoCss = {
     border: "1px solid #85929E ",
 };
-function EliminarUsuario(props){
-    let {idUsuario}=useParams();
-    let usuario=getUsuario(idUsuario);
-    console.log(usuario);
-        return (
+function EliminarUsuario(props) {
+    let navigate = useNavigate();
+    let { idUsuario } = useParams();
+
+    let [user, setUser] = useState({});
+
+    useEffect(function () {
+        let url = backendConfig.FULL_API_PATH+"usuarios/get/" + idUsuario;
+        let promiseData = getRequest(
+            url,
+
+            {},
+            "get",
+            {}
+        );
+        promiseData
+            .then((res) => {
+                console.log(res);
+                setUser(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    console.log(user);
+    return (
         <div class="col-12 w-75 mx-auto">
             <h4 class="mb-3">Eliminar Usuario</h4>
             <form>
                 <div class="row g-3">
-                <div class="col-sm-12">
-                        <label for="id" class="form-label">
-                            ID
+                    <div class="col-sm-12">
+                    
+                        <label for="identifier" class="form-label">
+                            Id
                         </label>
                         <input
                             type="text"
                             class="form-control"
                             id="id"
-                            placeholder=""
-                            defaultValue={usuario.id}
+                            defaultValue={idUsuario}
                             required={true}
-                            style={objetoCss}
                             readOnly={true}
+                            style={objetoCss}
                         />
-                        
                     </div>
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">
-                            Nombre
+                            Nombre 
                         </label>
                         <input
                             type="text"
                             class="form-control"
                             id="firstName"
-                            placeholder=""
-                            defaultValue={usuario.firstName}
+                            placeholder="Nombre de la persona"
+                            defaultValue={user.firstName}
                             required={true}
-                            style={objetoCss}
+                            minLength={4}
                             readOnly={true}
                         />
                         <div class="invalid-feedback">
@@ -57,10 +81,26 @@ function EliminarUsuario(props){
                             class="form-control"
                             id="lastName"
                             placeholder=""
-                            defaultValue={usuario.lastName}
-                            required={true}
-                            style={objetoCss}
+                            defaultValue={user.lastName}
                             readOnly={true}
+                            style={objetoCss}
+                        />
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="idDocument" class="form-label">
+                            Documento de Identidad
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="idDocument"
+                            placeholder=""
+                            defaultValue={user.idDocument}
+                            readOnly={true}
+                            style={objetoCss}
                         />
                         <div class="invalid-feedback">
                             Valid last name is required.
@@ -68,7 +108,7 @@ function EliminarUsuario(props){
                     </div>
                     <hr class="my-4" />
                     <div class="col-12">
-                        <label for="username" class="form-label">
+                        <label for="userName" class="form-label">
                             Usuario
                         </label>
                         <div class="input-group has-validation">
@@ -76,12 +116,11 @@ function EliminarUsuario(props){
                             <input
                                 type="text"
                                 class="form-control"
-                                id="username"
+                                id="userName"
                                 placeholder="Username"
-                                defaultValue={usuario.username}
-                                required={true}
-                                style={objetoCss}
+                                defaultValue={user.userName}
                                 readOnly={true}
+                                style={objetoCss}
                             />
                             <div class="invalid-feedback">
                                 Your username is required.
@@ -98,83 +137,33 @@ function EliminarUsuario(props){
                             class="form-control"
                             id="email"
                             placeholder="you@example.com"
-                            defaultValue={usuario.email}
-                            required={true}
-                            style={objetoCss}
+                            defaultValue={user.email}
                             readOnly={true}
+                            style={objetoCss}
                         />
                         <div class="invalid-feedback">
                             Please enter a valid email address for shipping
                             updates.
                         </div>
                     </div>
-                    <div class="col-12">
-                        <label for="contrasena" class="form-label">
-                            Contraseña
+
+                    <div class="col-sm-12">
+                        <label for="typeUser" class="form-label">
+                            Tipo Usuario
                         </label>
                         <div class="input-group has-validation">
                             <input
-                                type="password"
+                                type="text"
                                 class="form-control"
-                                id="contrasena"
-                                placeholder="Contraseña"
-                                defaultValue={usuario.password}
+                                id="typeUser"
+                                placeholder=""
                                 required={true}
+                                defaultValue={user.typeUser}
                                 style={objetoCss}
-                                readOnly={true}
                             />
                             <div class="invalid-feedback">
-                                su contraseña es requerida.
+                                el dato es requerido.
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-12">
-                        <label for="tipoUsuario" class="form-label">
-                            Tipo Usuario
-                        </label>
-                        <select
-                            class="form-control"
-                            id="tipoUsuario"
-                            required={true}
-                            style={objetoCss}
-                            readOnly={true}
-                        >
-                            <option value="Administrador">Administrador</option>
-                            <option value="RevisorJiridico">
-                                Revisor juridico
-                            </option>
-                            <option value="RevisorArquitectonica">
-                                Revisor Arquitectonico
-                            </option>
-                            <option value="RevisorEstructural">
-                                Revisor estructural
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-sm-12">
-                        <label for="usuarioActivo" class="form-label">
-                            Usuario Activo
-                        </label>
-                        <div>
-                            <input
-                                className="ms-5"
-                                type="radio"
-                                value="Si"
-                                name="usuarioActivo"
-                                readOnly={true}
-                                
-
-                            />
-                            Si
-                            <input
-                                className="ms-5"
-                                type="radio"
-                                Value="No"
-                                name="usuarioActivo"
-                                readOnly={true}
-                            />
-                            No
                         </div>
                     </div>
                 </div>
@@ -182,20 +171,31 @@ function EliminarUsuario(props){
                 <hr class="my-4" />
 
                 <button
-                    class="w-100 btn btn-outline-danger btn-lg"
-                    type="submit"
-                    onClick={onClickSubmit}
+                    class="w-100 btn btn-danger btn-lg"
+                    type="button"
+                    onClick={() => {
+                        onClickSubmit(navigate, idUsuario);
+                    }}
                 >
-                    Eliminar
+                    Eliminar Registro
                 </button>
             </form>
         </div>
     );
-
 }
-function onClickSubmit(e) {
-    e.preventDefault();
+function onClickSubmit(navigate, idUsuario) {
+    let url = "http://localhost:8080/api/usuarios/delete/" + idUsuario;
+    let promiseDelete = getRequest(url, {}, "delete", {});
+    promiseDelete
+        .then((res) => {
+            console.log("usuario se ha eliminado");
+            alert("El usuario se ha eliminado");
+            console.log(res);
+            navigate("/usuarios");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
-
 
 export default EliminarUsuario;

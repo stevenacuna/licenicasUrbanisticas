@@ -2,9 +2,10 @@ import Cell from "./Cell";
 import Tools from "./Tools";
 
 function Row(props){
-    return <tr>
+    return <tr className="width: 20;">
         {props.columns.map(function(value,index){
-            return <Cell value={props.rowData[value]} index={index}/>
+            
+            return <Cell value={props.rowData[value]} indexFila={props.indexFila} index={index}/>
         })}
         <Tools path={props.path}
             tools={props.tools}

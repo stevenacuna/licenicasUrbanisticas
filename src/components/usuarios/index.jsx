@@ -1,53 +1,82 @@
-import {getData} from "../../js/getData";
-import MainPage from "../table/MainPage";
+import { useState } from "react";
+import { getRequest, loadData } from "../../js/getData";
+import backendConfig from "../../backendConfig";
+
+import BodyIndex from "./BodyIndex";
+import { useEffect } from "react";
 
 function UsuariosIndex(props) {
-    let datosTabla = getData("url", {}, "get", {});
+    let data = loadData();
+    const [dataTable, setDataTable] = useState(data);
+    const [state, setState] = useState("loading");
+    const [error, setError] = useState("");
+
+    useEffect(function () {
+        let url = backendConfig.FULL_API_PATH + "usuarios/all";
+        let promiseData = getRequest(
+            url,
+
+            {},
+            "get",
+            {}
+        );
+        promiseData
+            .then((res) => {
+                setState("loaded");
+                let data=res.data
+                console.log(data);
+                setDataTable(data);
+            })
+            .catch((err) => {
+                setState("error");
+                setError(err);
+                console.log(err);
+            });
+    }, []);
+    if (state === "error") {
+        return (
+            <div className="mx-3 d-flex">
+                <h3>{error.toString()}</h3>
+            </div>
+        );
+    }
+    if (state === "loading") {
+        return (
+            <div className="mx-3 d-flex">
+                <h3>Loading...</h3>
+            </div>
+        );
+    }
+
     return (
-        <div className="mx-5">
-            <h3>Usuarios</h3>
-            
-            <MainPage
-                path={"/usuarios"}
-                data={datosTabla}
-                name={"Tabla de Usuarios"}
-                columns={["id", "firstName", "email", "username", "password"]}
-                columnsAlias={[
-                    "id",
-                    "Nombre",
-                    "Correo",
-                    "Usuario",
-                    "Contrasena",
-                ]}
-                tools={["update", "delete"]}
-            />
-            {/* <form class="d-flex" role="search">
-                <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                />
-                <button class="btn btn-outline-success" type="submit">
-                    Search
-                </button>
-                </form> */}
-            {/* <Table
-                path={"/usuarios"}
-                data={datosTabla}
-                name={"Tabla de Usuarios"}
-                columns={["id", "firstName", "email", "username", "password"]}
-                columnsAlias={[
-                    "id",
-                    "Nombre",
-                    "Correo",
-                    "Usuario",
-                    "Contrasena",
-                    
-                ]}
-                tools={["update","delete"]} */}
-            />
-        </div>
+        <BodyIndex
+            data={dataTable}
+            path={"/usuarios"}
+            name={"Tabla de Usuarios"}
+            columns={[
+                "_id",
+                "firstName",
+                "lastName",
+                "idDocument",
+                "email",
+                "userName",
+                "password",
+                "typeUser",
+                "assetUser",
+            ]}
+            columnsAlias={[
+                "id",
+                "Nombre",
+                "Apellidos",
+                "Cedula",
+                "Correo",
+                "Usuario",
+                "Contrasena",
+                "Tipo Usuario",
+                "activo",
+            ]}
+            tools={["update", "delete"]}
+        ></BodyIndex>
     );
 }
 export default UsuariosIndex;

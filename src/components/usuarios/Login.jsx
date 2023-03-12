@@ -14,16 +14,16 @@ function LoginView(props) {
                         width="72"
                         height="57"
                     />
-                    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+                    <h1 class="h3 mb-3 fw-normal">Login</h1>
 
                     <div class="form-floating my-3">
                         <input
-                            type="email"
+                            type="text"
                             class="form-control"
                             id="floatingInput"
-                            placeholder="name@example.com"
+                            placeholder=""
                         />
-                        <label for="floatingInput">Email address</label>
+                        <label for="floatingInput">Usuario</label>
                     </div>
                     <div class="form-floating my-3">
                         <input
@@ -37,7 +37,7 @@ function LoginView(props) {
 
                     <div class="checkbox mb-3 my-3">
                         <label>
-                            <input type="checkbox" value="remember-me" />{" "}
+                            <input type="checkbox" value="remember-me" checked/>{" "}
                             Remember me
                         </label>
                     </div>

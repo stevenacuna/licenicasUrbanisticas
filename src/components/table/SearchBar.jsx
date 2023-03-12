@@ -33,7 +33,8 @@ function Search(data, columns, search) {
     data.forEach(function (value, index) {
         included = false;
         columns.forEach(function (column, indexColumn) {
-            if (
+            try {
+                if (
                 value[column]
                     .toString()
                     .toLowerCase()
@@ -42,7 +43,7 @@ function Search(data, columns, search) {
             ) {
                 results.push(value);
                 included = true;
-            }
+            }}catch (ex){}
         });
     });
     return results;

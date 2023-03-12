@@ -5,7 +5,7 @@ function Header(props){
     }
     return(
         
-            <thead>
+            <thead className="">
                     <tr>
                          {
                             props.columnsAlias.map(function(value,index){

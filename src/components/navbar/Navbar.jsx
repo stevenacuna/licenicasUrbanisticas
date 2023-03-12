@@ -3,7 +3,7 @@ import LogBotton from "./LogButton";
 function Navbar(props) {
     return (
         <div>
-          <h3>LICENCIAS URBANISTICAS</h3>
+            <h3>LICENCIAS URBANISTICAS</h3>
             <div className="mx-5 my-3">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
@@ -35,7 +35,9 @@ function Navbar(props) {
                                 <li class="nav-item">
                                     <Link
                                         to={"/radicacion"}
-                                        className="nav-link"
+                                        className="nav-link active"
+                                        locked={false}
+
                                     >
                                         Radicación
                                     </Link>
@@ -44,6 +46,7 @@ function Navbar(props) {
                                     <Link
                                         to={"/revision_juridica"}
                                         className="nav-link"
+                                        disable={true}
                                     >
                                         Revisión Jurídica
                                     </Link>
@@ -52,6 +55,7 @@ function Navbar(props) {
                                     <Link
                                         to={"/revision_arquitectonica"}
                                         className="nav-link"
+                                        disable={true}
                                     >
                                         Revisión Arquitectónica
                                     </Link>
@@ -60,6 +64,7 @@ function Navbar(props) {
                                     <Link
                                         to={"/revision_estructural"}
                                         className="nav-link"
+                                        disable={true}
                                     >
                                         Revisión Estructural
                                     </Link>
@@ -67,7 +72,9 @@ function Navbar(props) {
                                 <li class="nav-item">
                                     <Link
                                         to={"/usuarios"}
-                                        className="nav-link">
+                                        className="nav-link"
+                                        disable={true}
+                                    >
                                         Usuarios
                                     </Link>
                                 </li>
@@ -75,12 +82,10 @@ function Navbar(props) {
                                     <Link to={"/ejemplos"} className="nav-link">
                                         Ejemplos
                                     </Link>
-                                    
                                 </li>
-                                
                             </ul>
-                            
-                            <LogBotton logget={props.logget}/>
+
+                            <LogBotton logget={props.logget} />
                         </div>
                     </div>
                 </nav>

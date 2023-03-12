@@ -1,7 +1,12 @@
+import { getRequest } from "../../js/getData";
+import backendConfig from "../../backendConfig";
+import { useNavigate } from "react-router-dom";
 let objetoCss = {
     border: "1px solid #85929E ",
 };
+
 function CreateUsuario(props) {
+    let navigate = useNavigate();
     return (
         <div class="col-12 w-75 mx-auto">
             <h4 class="mb-3">Crear Usuario</h4>
@@ -42,9 +47,26 @@ function CreateUsuario(props) {
                             Valid last name is required.
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <label for="idDocument" class="form-label">
+                            Documento de Identidad
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="idDocument"
+                            placeholder=""
+                            defaultValue=""
+                            required={true}
+                            style={objetoCss}
+                        />
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
                     <hr class="my-4" />
                     <div class="col-12">
-                        <label for="username" class="form-label">
+                        <label for="userName" class="form-label">
                             Usuario
                         </label>
                         <div class="input-group has-validation">
@@ -52,7 +74,7 @@ function CreateUsuario(props) {
                             <input
                                 type="text"
                                 class="form-control"
-                                id="username"
+                                id="userName"
                                 placeholder="Username"
                                 required={true}
                                 style={objetoCss}
@@ -88,7 +110,7 @@ function CreateUsuario(props) {
                             <input
                                 type="password"
                                 class="form-control"
-                                id="contrasena"
+                                id="password1"
                                 placeholder="Contraseña"
                                 required={true}
                                 defaultValue=""
@@ -107,7 +129,7 @@ function CreateUsuario(props) {
                             <input
                                 type="password"
                                 class="form-control"
-                                id="contrasena2"
+                                id="password2"
                                 placeholder="Contraseña2"
                                 required={true}
                                 defaultValue=""
@@ -119,57 +141,56 @@ function CreateUsuario(props) {
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <label for="tipoUsuario" class="form-label">
+                        <label for="typeUser" class="form-label">
                             Tipo Usuario
                         </label>
                         <select
                             class="form-control"
-                            id="tipoUsuario"
+                            id="typeUser"
                             required={true}
                             style={objetoCss}
                         >
-                            <option value="Administrador">Administrador</option>
-                            <option value="RevisorJiridico">
-                                Revisor juridico
-                            </option>
-                            <option value="RevisorArquitectonica">
+                            <option value="admin">Administrador</option>
+                            <option value="reviewer1">Revisor juridico</option>
+                            <option value="reviewer2">
                                 Revisor Arquitectonico
                             </option>
-                            <option value="RevisorEstructural">
+                            <option value="reviewer3">
                                 Revisor estructural
                             </option>
                         </select>
                     </div>
                     <div class="col-sm-12">
-                        <label for="usuarioActivo" class="form-label">
+                        <label for="assetUser" class="form-label">
                             Usuario Activo
                         </label>
                         <div>
                             <input
-                                className="ms-5"
                                 type="radio"
-                                value="Si"
-                                name="usuarioActivo"
+                                defaultValue={true}
+                                name="assetUser"
                                 checked
                             />
                             Si
                             <input
-                                className="ms-5"
                                 type="radio"
-                                Value="No"
-                                name="usuarioActivo"
+                                defaultValue={false}
+                                name="assetUser"
                             />
                             No
                         </div>
                     </div>
+                    
                 </div>
 
                 <hr class="my-4" />
 
                 <button
                     class="w-100 btn btn-primary btn-lg"
-                    type="submit"
-                    onClick={onClickSubmit}
+                    type="button"
+                    onClick={() => {
+                        onClickSubmit(navigate);
+                    }}
                 >
                     Continue con el Registro
                 </button>
@@ -178,5 +199,51 @@ function CreateUsuario(props) {
     );
 }
 
-function onClickSubmit(e) {}
+function onClickSubmit(navigate) {
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let idDocument = document.getElementById("idDocument").value;
+    let userName = document.getElementById("userName").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password1").value;
+    let password2 = document.getElementById("password2").value;
+    let typeUser = document.getElementById("typeUser").value;
+    let assetUser = document.querySelector(
+        'input[name="assetUser"]:checked'
+    ).value;
+        
+    
+    if (password === password2) {
+        let bodyData = {
+            firstName,
+            lastName,
+            idDocument,
+            userName,
+            email,
+            password,
+            typeUser,
+            assetUser,
+        };
+        console.log(bodyData);
+        let url = backendConfig.FULL_API_PATH+"usuarios/create";
+
+        let promiseCreate = getRequest(url, {}, "post", bodyData);
+        promiseCreate
+            .then((res) => {
+                if (res.status < 300) {
+                    console.log("usuario creado");
+                    alert("El usuario se ha creado");
+                    navigate("/usuarios");
+                } else {
+                    console.log("error al crear");
+                }
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        alert("las claves no coninciden");
+    }
+}
 export default CreateUsuario;

@@ -3,8 +3,8 @@ import Header from "./Header";
 
 function Table(props) {
     return (
-        <div>
-            <table class="table">
+        <div class="table-responsive" >
+            <table className="table table-success table-striped table-responsive">
                 <caption>{props.name}</caption>
                 <Header columnsAlias={props.columnsAlias} tools={props.tools} />
                 <Body
