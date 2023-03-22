@@ -3,12 +3,16 @@ import { getRequest } from "../../js/getData";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import backendConfig from "../../backendConfig";
+import { useAuthContext } from "../../contexts/authContext";
+
 
 let objetoCss = {
     border: "1px solid #85929E ",
 };
 function EliminarUsuario(props) {
     let navigate = useNavigate();
+    const {isToken}=useAuthContext();
+    
     let { idUsuario } = useParams();
 
     let [user, setUser] = useState({});
@@ -24,7 +28,7 @@ function EliminarUsuario(props) {
         );
         promiseData
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
                 setUser(res.data);
             })
             .catch((err) => {
@@ -66,6 +70,7 @@ function EliminarUsuario(props) {
                             required={true}
                             minLength={4}
                             readOnly={true}
+                            style={objetoCss}
                         />
                         <div class="invalid-feedback">
                             Valid first name is required.
@@ -174,7 +179,7 @@ function EliminarUsuario(props) {
                     class="w-100 btn btn-danger btn-lg"
                     type="button"
                     onClick={() => {
-                        onClickSubmit(navigate, idUsuario);
+                        onClickSubmit(navigate, idUsuario,isToken);
                     }}
                 >
                     Eliminar Registro
@@ -183,9 +188,9 @@ function EliminarUsuario(props) {
         </div>
     );
 }
-function onClickSubmit(navigate, idUsuario) {
+function onClickSubmit(navigate, idUsuario,token) {
     let url = "http://localhost:8080/api/usuarios/delete/" + idUsuario;
-    let promiseDelete = getRequest(url, {}, "delete", {});
+    let promiseDelete = getRequest(url, {"x-access-token":token}, "delete", {});
     promiseDelete
         .then((res) => {
             console.log("usuario se ha eliminado");
@@ -195,6 +200,7 @@ function onClickSubmit(navigate, idUsuario) {
         })
         .catch((err) => {
             console.log(err);
+            alert(err.response.data.message);
         });
 }
 

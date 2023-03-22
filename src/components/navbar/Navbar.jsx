@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LogBotton from "./LogButton";
 function Navbar(props) {
+    
     return (
         <div>
             <h3>LICENCIAS URBANISTICAS</h3>
@@ -32,57 +33,51 @@ function Navbar(props) {
                                         Home
                                     </Link>
                                 </li>
-                                <li class="nav-item">
+                                {props.logget ? <li
+                                    class="nav-item"
+                                >
                                     <Link
-                                        to={"/radicacion"}
-                                        className="nav-link active"
-                                        locked={false}
-
+                                        to="/radicacion"
+                                        className="nav-link"
+                                        
                                     >
                                         Radicación
                                     </Link>
-                                </li>
-                                <li class="nav-item">
+                                </li>: null}
+                                {props.logget ? <li class="nav-item">
                                     <Link
                                         to={"/revision_juridica"}
                                         className="nav-link"
-                                        disable={true}
                                     >
                                         Revisión Jurídica
                                     </Link>
-                                </li>
-                                <li class="nav-item">
+                                </li>:null}
+                                {props.logget ? <li class="nav-item">
                                     <Link
                                         to={"/revision_arquitectonica"}
                                         className="nav-link"
-                                        disable={true}
                                     >
                                         Revisión Arquitectónica
                                     </Link>
-                                </li>
-                                <li class="nav-item">
+                                </li>:null}
+                                {props.logget ? <li class="nav-item">
                                     <Link
                                         to={"/revision_estructural"}
                                         className="nav-link"
-                                        disable={true}
                                     >
                                         Revisión Estructural
                                     </Link>
-                                </li>
-                                <li class="nav-item">
-                                    <Link
-                                        to={"/usuarios"}
-                                        className="nav-link"
-                                        disable={true}
-                                    >
+                                </li>:null}
+                                {props.logget ? <li class="nav-item">
+                                    <Link to={"/usuarios"} className="nav-link">
                                         Usuarios
                                     </Link>
-                                </li>
-                                <li class="nav-item">
+                                </li>:null}
+                                {props.logget ? <li class="nav-item">
                                     <Link to={"/ejemplos"} className="nav-link">
                                         Ejemplos
                                     </Link>
-                                </li>
+                                </li>:null}
                             </ul>
 
                             <LogBotton logget={props.logget} />

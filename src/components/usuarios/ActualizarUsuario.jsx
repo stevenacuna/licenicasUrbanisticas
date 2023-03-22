@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import Body from "../table/Body";
+import { useAuthContext } from "../../contexts/authContext";
 let objetoCss = {
     border: "1px solid #85929E "}
 
 function ActualizarUsuario(props) {
     let navigate = useNavigate();
+    const {isToken}=useAuthContext();
     let { idUsuario } = useParams();
 
     let [user, setUser] = useState({});
@@ -161,7 +163,7 @@ function ActualizarUsuario(props) {
                                 id="password1"
                                 placeholder="Contraseña"
                                 required={true}
-                                defaultValue={user.password}
+                                defaultValue=""
                                 style={objetoCss}
                             />
                             <div class="invalid-feedback">
@@ -180,7 +182,7 @@ function ActualizarUsuario(props) {
                                 id="password2"
                                 placeholder="Contraseña2"
                                 required={true}
-                                defaultValue={user.password}
+                                defaultValue=""
                                 style={objetoCss}
                             />
                             <div class="invalid-feedback">
@@ -199,6 +201,7 @@ function ActualizarUsuario(props) {
                             style={objetoCss}
                         >
                             <option value="admin">Administrador</option>
+                            <option value="radicator">Radicador</option>
                             <option value="reviewer1">Revisor juridico</option>
                             <option value="reviewer2">
                                 Revisor Arquitectonico
@@ -237,7 +240,7 @@ function ActualizarUsuario(props) {
                     class="w-100 btn btn-primary btn-lg"
                     type="button"
                     onClick={() => {
-                        onClickSubmit(navigate,idUsuario);
+                        onClickSubmit(navigate,idUsuario,isToken);
                     }}
                 >
                     Actualizar Registro
@@ -247,7 +250,7 @@ function ActualizarUsuario(props) {
     );
 }
 
-function onClickSubmit(navigate,idUsuario) {
+function onClickSubmit(navigate,idUsuario,token) {
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
     let idDocument = document.getElementById("idDocument").value;
@@ -255,11 +258,11 @@ function onClickSubmit(navigate,idUsuario) {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password1").value;
     let password2 = document.getElementById("password2").value;
-    let typeUser = document.getElementById("typeUser").value;
+    let typeUser1 = document.getElementById("typeUser").value;
     let assetUser = document.querySelector(
         'input[name="assetUser"]:checked'
     ).value;
-        let _id=idUsuario;
+        
     
     if (password === password2) {
         let bodyData = {
@@ -269,13 +272,13 @@ function onClickSubmit(navigate,idUsuario) {
             userName,
             email,
             password,
-            typeUser,
+            typeUser:[typeUser1],
             assetUser,
         };
         console.log(bodyData);
         let url = backendConfig.FULL_API_PATH+"usuarios/update/"+idUsuario;
 
-        let promiseUpdate = getRequest(url, {}, "post", bodyData);
+        let promiseUpdate = getRequest(url, {"x-access-token":token}, "post", bodyData);
         promiseUpdate
             .then((res) => {
                 if (res.status < 300) {
@@ -289,6 +292,7 @@ function onClickSubmit(navigate,idUsuario) {
             })
             .catch((err) => {
                 console.log(err);
+                alert(err.response.data.message);
             });
     } else {
         alert("las claves no coninciden");

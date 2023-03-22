@@ -7,12 +7,15 @@ function Cell(props) {
         valor="NO";
     }
         
-    }
+    }else if(typeof valor =="object"){
+        valor=valor[0].name
+
+    };
     
     if (props.index === 0) {
         return <th scope="row">{valor}</th>
     }else {
-        // console.log(valor.toString());
+        //console.log(typeof valor);
         
         return <td>{valor}</td>;
         

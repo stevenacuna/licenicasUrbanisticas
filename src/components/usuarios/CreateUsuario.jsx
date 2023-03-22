@@ -1,12 +1,15 @@
 import { getRequest } from "../../js/getData";
 import backendConfig from "../../backendConfig";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/authContext";
 let objetoCss = {
     border: "1px solid #85929E ",
 };
 
 function CreateUsuario(props) {
     let navigate = useNavigate();
+    const {isToken}=useAuthContext();
+
     return (
         <div class="col-12 w-75 mx-auto">
             <h4 class="mb-3">Crear Usuario</h4>
@@ -151,12 +154,13 @@ function CreateUsuario(props) {
                             style={objetoCss}
                         >
                             <option value="admin">Administrador</option>
-                            <option value="reviewer1">Revisor juridico</option>
+                            <option value="radicator">Radicador</option>
+                            <option value="reviewer1">Revisor jurídico</option>
                             <option value="reviewer2">
-                                Revisor Arquitectonico
+                                Revisor Arquitectónico
                             </option>
                             <option value="reviewer3">
-                                Revisor estructural
+                                Revisor Estructural
                             </option>
                         </select>
                     </div>
@@ -189,7 +193,7 @@ function CreateUsuario(props) {
                     class="w-100 btn btn-primary btn-lg"
                     type="button"
                     onClick={() => {
-                        onClickSubmit(navigate);
+                        onClickSubmit(navigate,isToken);
                     }}
                 >
                     Continue con el Registro
@@ -199,7 +203,7 @@ function CreateUsuario(props) {
     );
 }
 
-function onClickSubmit(navigate) {
+function onClickSubmit(navigate,token) {
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
     let idDocument = document.getElementById("idDocument").value;
@@ -221,13 +225,13 @@ function onClickSubmit(navigate) {
             userName,
             email,
             password,
-            typeUser,
+            typeUser:[typeUser],
             assetUser,
         };
         console.log(bodyData);
         let url = backendConfig.FULL_API_PATH+"usuarios/create";
 
-        let promiseCreate = getRequest(url, {}, "post", bodyData);
+        let promiseCreate = getRequest(url, {"x-access-token":token}, "post", bodyData);
         promiseCreate
             .then((res) => {
                 if (res.status < 300) {
@@ -241,6 +245,7 @@ function onClickSubmit(navigate) {
             })
             .catch((err) => {
                 console.log(err);
+                alert()
             });
     } else {
         alert("las claves no coninciden");

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { getRequest, loadData } from "../../js/getData";
+import { getRequest } from "../../js/getData";
 import backendConfig from "../../backendConfig";
 
 import BodyIndex from "./BodyIndex";
 import { useEffect } from "react";
 
 function UsuariosIndex(props) {
-    let data = loadData();
-    const [dataTable, setDataTable] = useState(data);
+    
+    const [dataTable, setDataTable] = useState([]);
     const [state, setState] = useState("loading");
     const [error, setError] = useState("");
 
@@ -60,7 +60,6 @@ function UsuariosIndex(props) {
                 "idDocument",
                 "email",
                 "userName",
-                "password",
                 "typeUser",
                 "assetUser",
             ]}
@@ -71,7 +70,6 @@ function UsuariosIndex(props) {
                 "Cedula",
                 "Correo",
                 "Usuario",
-                "Contrasena",
                 "Tipo Usuario",
                 "activo",
             ]}
