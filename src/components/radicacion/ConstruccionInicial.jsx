@@ -6,13 +6,13 @@ function ConstruccionInicial(props) {
             
         
         <form>
-            <div>Construccion Inicial</div>
+            <div>Construcción Inicial</div>
 
             <div className="row g-3">
                 <div className="col-sm-12">
                     <div class="form-check mx-auto">
                         <label class="form-check-label" for="flexRadioDefault1">
-                            1.5. Modalidad Licencina de Construcción
+                            1.5 Modalidad Licencia de Construcción
                         </label>
                     </div>
 
