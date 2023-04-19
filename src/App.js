@@ -27,7 +27,7 @@ function App() {
             <div className="App">
                 
                     <Navbar logget={isAuthenticated} />
-
+                    {/* <Navbar logget={true} /> */}
                     <Routes>
                         <Route path="/" element={<Home logo={logoCargado} />} />
                         <Route path="/radicacion" element={<Radicacion />} />

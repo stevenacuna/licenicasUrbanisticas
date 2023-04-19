@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 
-function UrbanizacionInicial(props) {
+function ModalidadSubdivision(props) {
   const handleSelectChange=(e)=>{
     console.log(e)
   }
@@ -10,15 +10,15 @@ function UrbanizacionInicial(props) {
     <div className="col-sm-6">
     <div class="form-check mx-auto">
         <label class="form-check-label" for="flexRadioDefault1">
-            1.3 Modalidad Licecnia de Urbanización
+            1.4 Modalidad Subdivisión
         </label>
     </div>
       <Select
 
       options={[
-        {label:"Desarrollo",value:"1"},
-        {label:"Saneamiento",value:"2"},
-        {label:"Reurbanización",value:"3"}
+        {label:"Subdivisión Rural",value:"1"},
+        {label:"Subdivisión Urbana",value:"2"},
+        {label:"Reloteo",value:"3"}
       ]}
 
       onChange={handleSelectChange}
@@ -27,4 +27,4 @@ function UrbanizacionInicial(props) {
   )
 }
 
-export default UrbanizacionInicial
+export default ModalidadSubdivision

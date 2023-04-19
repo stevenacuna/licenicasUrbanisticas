@@ -48,11 +48,8 @@ const dbTramite=[
             {
                 id:"2",
                 name:"Modificacion Licencia Vigente"
-            },
-            {
-                id:"3",
-                name:"Revalidacion"
             }
+            
         ]
         
     },

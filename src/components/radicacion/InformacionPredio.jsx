@@ -1,6 +1,23 @@
 import React from "react";
+import { Controller } from "react-hook-form";
+import Select from "react-select";
 
-function InformacionPredio() {
+function InformacionPredio(props) {
+    const handleSelectChange = (e) => {
+        
+        if (
+            e.value == "1" ||
+            e.value == "2" ||
+            e.value == "3" ||
+            e.value == "4" ||
+            e.value == "5" ||
+            e.value == "6"
+        ) {
+            props.setVecinosColindantes(true);
+        } else {
+            props.setVecinosColindantes(false);
+        }
+    };
     return (
         <div className="">
             <hr />
@@ -16,9 +33,9 @@ function InformacionPredio() {
                 </label>
                 <div class="input-group has-validation">
                     <input
+                        {...props.register("direccionPredio")}
                         type="text"
                         class="form-control"
-                        id="password2"
                         placeholder=""
                         required={true}
                         defaultValue=""
@@ -33,9 +50,9 @@ function InformacionPredio() {
                     </label>
                     <div class="input-group has-validation">
                         <input
+                            {...props.register("matriculaInmobiliaria")}
                             type="text"
                             class="form-control"
-                            id="password2"
                             placeholder=""
                             required={true}
                             defaultValue=""
@@ -49,9 +66,9 @@ function InformacionPredio() {
                     </label>
                     <div class="input-group has-validation">
                         <input
+                            {...props.register("cedulaCatastral")}
                             type="text"
                             class="form-control"
-                            id=""
                             placeholder=""
                             required={true}
                             defaultValue=""
@@ -67,14 +84,18 @@ function InformacionPredio() {
                     </div>
 
                     <select
+                        {...props.register("clasificacionSuelo", {
+                            required: true,
+                        })}
                         class="form-select col-sm-3"
                         aria-label="Default select example"
-                        id="objetoTramite"
                     >
-                        <option selected>Selecione Objeto del Trámite </option>
-                        <option value="1">Urbano</option>
-                        <option value="2">Rural</option>
-                        <option value="3">De Expansión Urbana</option>
+                        <option selected>Selecione un tipo de suelo </option>
+                        <option value="Urbano">Urbano</option>
+                        <option value="Rural">Rural</option>
+                        <option value="De Expansión Urbana">
+                            De Expansión Urbana
+                        </option>
                     </select>
                 </div>
                 <div className="col-sm-6">
@@ -85,22 +106,25 @@ function InformacionPredio() {
                     </div>
 
                     <select
+                        {...props.register("planimetriaLote")}
                         class="form-select col-sm-3"
                         aria-label="Default select example"
-                        id="objetoTramite"
                     >
                         <option selected>Seleccione Objeto del Trámite </option>
-                        <option value="1">A. Plano de Urbanización</option>
-                        <option value="2">B. Plano Topográfico</option>
-                        <option value="3">C. Otro</option>
+                        <option value="Plano de Urbanización">
+                            A. Plano de Urbanización
+                        </option>
+                        <option value="Plano Topográfico">
+                            B. Plano Topográfico
+                        </option>
+                        <option value="Otro">C. Otro</option>
                     </select>
                 </div>
-                
+
                 <hr />
                 <div class="form-check cl-sm-12">
                     <label class="form-check-label" for="flexRadioDefault1">
                         <strong>2.6 Informacion General</strong>
-                        
                     </label>
                 </div>
                 <hr />
@@ -113,6 +137,7 @@ function InformacionPredio() {
                             Barrio
                         </label>
                         <input
+                            {...props.register("barrio")}
                             type="text"
                             class="form-control col-4"
                             id=""
@@ -130,11 +155,11 @@ function InformacionPredio() {
                             Comuna
                         </label>
                         <input
+                            {...props.register("comuna")}
                             type="text"
                             class="form-control col-4"
-                            id=""
                             placeholder="Cumuna"
-                            required={true}
+                            required={false}
                             defaultValue=""
                         />
                         <div class="invalid-feedback">su es requerida.</div>
@@ -146,13 +171,31 @@ function InformacionPredio() {
                         >
                             Estrato
                         </label>
-                        <input
-                            type="text"
-                            class="form-control col-4"
-                            id=""
-                            placeholder="Estrato"
-                            required={true}
-                            defaultValue=""
+
+                        <Controller
+                            name="estratoSocioeconomico"
+                            rules={{ required: true }}
+                            control={props.control}
+                            render={({ field }) => (
+                                <Select
+                                    className="react-dropdown form-check-label col-10"
+                                    isClearable
+                                    isSearchable={false}
+                                    classNamePrefix="dropdown"
+                                    options={[
+                                        { label: "1", value: "1" },
+                                        { label: "2", value: "2" },
+                                        { label: "3", value: "3" },
+                                        { label: "4", value: "4" },
+                                        { label: "5", value: "5" },
+                                        { label: "6", value: "6" },
+                                    ]}
+                                    onChange={(e) => {
+                                        handleSelectChange(e);
+                                        field.onChange(e);
+                                    }}
+                                />
+                            )}
                         />
                         <div class="invalid-feedback">su es requerida.</div>
                     </div>
@@ -164,11 +207,12 @@ function InformacionPredio() {
                             Manzana No.
                         </label>
                         <input
+                            {...props.register("manzanaNumero")}
                             type="text"
                             class="form-control col-4"
                             id=""
                             placeholder="Manzana No."
-                            required={true}
+                            required={false}
                             defaultValue=""
                         />
                         <div class="invalid-feedback">su es requerida.</div>
@@ -183,12 +227,12 @@ function InformacionPredio() {
                             Vereda
                         </label>
                         <input
+                            {...props.register("vereda")}
                             type="text"
                             class="form-control col-4"
                             id=""
                             placeholder="Vereda"
                             required={true}
-                            defaultValue=""
                         />
                         <div class="invalid-feedback">su es requerida.</div>
                     </div>
@@ -200,12 +244,11 @@ function InformacionPredio() {
                             Sector
                         </label>
                         <input
+                            {...props.register("sector")}
                             type="text"
                             class="form-control col-4"
-                            id=""
                             placeholder="Sector"
-                            required={true}
-                            defaultValue=""
+                            required={false}
                         />
                         <div class="invalid-feedback">su es requerida.</div>
                     </div>
@@ -217,14 +260,13 @@ function InformacionPredio() {
                             Corregimiento
                         </label>
                         <input
+                            {...props.register("corregimiento")}
                             type="text"
                             class="form-control col-4"
-                            id=""
                             placeholder="Corregimiento"
-                            required={true}
-                            defaultValue=""
+                            required={false}
                         />
-                        <div class="invalid-feedback">su es requerida.</div>
+                        <div class="invalid-feedback">es requerida.</div>
                     </div>
                     <div class="input-group has-validation col-sm-6">
                         <label
@@ -234,12 +276,11 @@ function InformacionPredio() {
                             Lote No.
                         </label>
                         <input
+                            {...props.register("loteNumero")}
                             type="text"
                             class="form-control col-4"
-                            id=""
                             placeholder="Lote No."
-                            required={true}
-                            defaultValue=""
+                            required={false}
                         />
                         <div class="invalid-feedback">su es requerida.</div>
                     </div>

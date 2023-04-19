@@ -1,14 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import backendConfig from '../../backendConfig';
+import backendConfig from "../../backendConfig";
 import { useAuthContext } from "../../contexts/authContext";
-import {getRequest} from '../../js/getData'
-
-
+import { getRequest } from "../../js/getData";
 
 function LoginView(props) {
-    let navigate=useNavigate();
-    const {login}=useAuthContext();
-    
+    let navigate = useNavigate();
+    const { login } = useAuthContext();
+
     return (
         <div className="w-75 mx-auto">
             <main class="form-signin w-100 m-auto">
@@ -55,7 +53,7 @@ function LoginView(props) {
                         class="w-100 btn btn-lg btn-primary my-3"
                         type="button"
                         onClick={() => {
-                            onClickSubmit(navigate,login);
+                            onClickSubmit(navigate, login);
                         }}
                     >
                         Sign in
@@ -67,39 +65,49 @@ function LoginView(props) {
     );
 }
 
-function onClickSubmit(navigate,login){
-        let userName = document.getElementById("userName").value;
+function onClickSubmit(navigate, login) {
+    let userName = document.getElementById("userName").value;
     let password = document.getElementById("password").value;
-    console.log(userName+" "+password);
 
     let bodyData = {
         userName,
-        password
+        password,
     };
-   
-    let url = backendConfig.FULL_API_PATH+"auth/signin";
 
-    let promiseSingIn = getRequest(url, {"Content-Type":"application/json"}, "post", bodyData);
+    let url = backendConfig.FULL_API_PATH + "auth/signin";
+
+    let promiseSingIn = getRequest(
+        url,
+        { "Content-Type": "application/json" },
+        "post",
+        bodyData
+    );
     promiseSingIn
         .then((res) => {
             if (res.status < 300) {
-                let data=res.data
-                let token=data.token
+                let data = res.data;
+                let token = data.token;
                 console.log("usuario Actualizado");
                 //alert("El usuario se ha Actualizado");
-                alert(data.token);
                 login(token);
                 navigate("/");
             } else {
                 console.log("error al Actualizar");
-                
             }
             console.log(res);
         })
-        .catch((err) => {
+        .catch((err, res) => {
             console.log(err);
-            alert("Usuario o Clave invalidadas");
+            console.log(err.message);
+            if (err.message === "Network Error") {
+                alert("error al conectar con la base de datos");
+            }
+            if (
+                err.message === "Request failed with status code 401" ||
+                err.message === "Request failed with status code 400"
+            ) {
+                alert("usuario o clave incorrectos");
+            }
         });
-
 }
 export default LoginView;
