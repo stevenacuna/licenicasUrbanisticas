@@ -4,7 +4,7 @@ import Select from "react-select";
 
 function UsosProyecto(props) {
     const handleSelectChange = (e) => {
-        console.log(e);
+        
         const result=e.map((element)=>element.value);
         console.log(result);
         if(result.includes('Vivienda')){

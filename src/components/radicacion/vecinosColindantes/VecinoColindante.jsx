@@ -1,17 +1,12 @@
 import React from "react";
 
 function VecinoColindante(props) {
-    const vecino = (numeroPredios) => {
-        const result = [];
-        for (let i = 1; i <= numeroPredios; i++) {
-            result.push(i);
-        }
-        return result;
-    };
+    
 
     return (
         <div className="col-sm-12">
-            { vecino(props.numeroPredios).map((element) => {
+            { Array.from({length:props.numeroPredios}).map((_,index) => {
+                const element=index+1
                 const textDireccionPredio =
                     "Dirección Predio Vecino " + element;
                 const textDirNotPredio =
@@ -29,7 +24,7 @@ function VecinoColindante(props) {
                         <div class="input-group has-validation col-5">
                             <input
                                 {...props.register(
-                                    "dirPredioVecino_" + element
+                                    "dirPredioVecino.vecino_" + element+".dirPredio",{required:true}
                                 )}
                                 type="text"
                                 class="form-control"
@@ -51,7 +46,7 @@ function VecinoColindante(props) {
                         <div class="input-group has-validation col-sm-5">
                             <input
                                 {...props.register(
-                                    "dirNotPredioVecino_" + element
+                                    "dirPredioVecino.vecino_" + element+".dirNotiPredio",{required:true}
                                 )}
                                 type="text"
                                 class="form-control"

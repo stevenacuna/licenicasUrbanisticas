@@ -82,21 +82,29 @@ function InformacionPredio(props) {
                             2.4 Calsificación del Suelo
                         </label>
                     </div>
-
-                    <select
-                        {...props.register("clasificacionSuelo", {
-                            required: true,
-                        })}
-                        class="form-select col-sm-3"
-                        aria-label="Default select example"
-                    >
-                        <option selected>Selecione un tipo de suelo </option>
-                        <option value="Urbano">Urbano</option>
-                        <option value="Rural">Rural</option>
-                        <option value="De Expansión Urbana">
-                            De Expansión Urbana
-                        </option>
-                    </select>
+                    <Controller
+                        name="clasificacionSuelo"
+                        rules={{ required: true }}
+                        control={props.control}
+                        render={({ field }) => (
+                            <Select
+                                {...field}
+                                isMulti={false}
+                                isClearable
+                                backspaceRemovesValue={false}
+                                escapeClearsValue={false}
+                                options={[{label:"Urbano",value:"Urbano"},
+                                {label:"Rural",value:"Rural"},
+                                {label:"De Expansión Urbana",value:"De Expansión Urbana"}
+                                ]}
+                                onChange={(e) => {
+                                    handleSelectChange(e);
+                                    field.onChange(e);
+                                }}
+                            />
+                        )}
+                    />
+                    
                 </div>
                 <div className="col-sm-6">
                     <div class="form-check mx-auto">
@@ -104,21 +112,29 @@ function InformacionPredio(props) {
                             2.5 Planimetria del Lote
                         </label>
                     </div>
-
-                    <select
-                        {...props.register("planimetriaLote")}
-                        class="form-select col-sm-3"
-                        aria-label="Default select example"
-                    >
-                        <option selected>Seleccione Objeto del Trámite </option>
-                        <option value="Plano de Urbanización">
-                            A. Plano de Urbanización
-                        </option>
-                        <option value="Plano Topográfico">
-                            B. Plano Topográfico
-                        </option>
-                        <option value="Otro">C. Otro</option>
-                    </select>
+                    <Controller
+                        name="planimetriaLote"
+                        rules={{ required: false }}
+                        control={props.control}
+                        render={({ field }) => (
+                            <Select
+                                {...field}
+                                isMulti={false}
+                                isClearable
+                                backspaceRemovesValue={false}
+                                escapeClearsValue={false}
+                                options={[{label:"Plano de Urbanización",value:"Plano de Urbanización"},
+                                {label:"Plano Topográfico",value:"Plano Topográfico"},
+                                {label:"Otro",value:"Otro"}
+                                ]}
+                                onChange={(e) => {
+                                    handleSelectChange(e);
+                                    field.onChange(e);
+                                }}
+                            />
+                        )}
+                    />
+                    
                 </div>
 
                 <hr />
@@ -178,6 +194,7 @@ function InformacionPredio(props) {
                             control={props.control}
                             render={({ field }) => (
                                 <Select
+                                    {...field }
                                     className="react-dropdown form-check-label col-10"
                                     isClearable
                                     isSearchable={false}

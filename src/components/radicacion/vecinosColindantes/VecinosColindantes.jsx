@@ -4,13 +4,31 @@ import Select from "react-select";
 import VecinoColindante from "./VecinoColindante";
 
 function VecinosColindantes(props) {
-    const [numeroPredios, setNumeroPredios] = useState(0);
+    const [numeroPredios, setNumeroPredios] = useState(-1);
+    const [mostrarSiguiente, setMostrarSiguiente] = useState(false)
 
     const handleSelectChange = (e) => {
-        console.log(e);
+        console.log(Array.from({ length: 5 }));
+
         setNumeroPredios(parseInt(e.value));
+        if (e.value == "0") {
+            props.setLinderosDimensionesAreas(true);
+            setMostrarSiguiente(false)
+        } else {
+            props.setLinderosDimensionesAreas(false);
+
+        }
+
+        if (parseInt(e.value)>0){
+            setMostrarSiguiente(true)
+        }
     };
-    
+
+    const handleNext=(e)=>{
+        props.setLinderosDimensionesAreas(true);
+        setMostrarSiguiente(false)
+    }
+
 
     return (
         <div>
@@ -31,7 +49,7 @@ function VecinosColindantes(props) {
                     </div>
                     <div class="input-group has-validation col-5">
                         <Controller
-                            name="estratoSocioeconomico"
+                            name="numPrediosVecinos"
                             rules={{ required: true }}
                             control={props.control}
                             render={({ field }) => (
@@ -68,7 +86,22 @@ function VecinosColindantes(props) {
                     </div>
                 </div>
                 <div>
-                    {numeroPredios > 0 ? <VecinoColindante {...props} numeroPredios={numeroPredios} /> : undefined}
+                    {numeroPredios > 0 ? (
+                        <VecinoColindante
+                            {...props}
+                            numeroPredios={numeroPredios}
+                        />
+                    ) : undefined}
+
+                    <button
+                        className="w-100 btn btn-lg btn-primary my-3 submit"
+                        type="button"
+                        disabled={false}
+                        onClick={handleNext}
+                        style={{ display: mostrarSiguiente ? "block" : "none" }}
+                    >
+                        Siguiente
+                    </button>
                 </div>
             </form>
         </div>

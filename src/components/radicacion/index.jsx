@@ -212,7 +212,7 @@ function Radicacion(props) {
                                     classNamePrefix="dropdown"
                                     defaultValue={{
                                         label: "OFICINA DE PLANEACION",
-                                        value: "OFICINA DE PLANEACION"
+                                        value: "OFICINA DE PLANEACION",
                                     }}
                                     options={[
                                         {
@@ -268,7 +268,7 @@ function Radicacion(props) {
                                     classNamePrefix="dropdown"
                                     value={{
                                         label: "Cundinamarca",
-                                        value: "25"
+                                        value: "25",
                                     }}
                                     options={[
                                         {
@@ -299,7 +299,7 @@ function Radicacion(props) {
                                     classNamePrefix="dropdown"
                                     value={{
                                         label: "XXX-XX-XX-XXXX",
-                                        value: "00001"
+                                        value: "00001",
                                     }}
                                     options={[
                                         {
@@ -439,10 +439,17 @@ function Radicacion(props) {
                     />
                 ) : undefined}
                 {vecinosColindantes ? (
-                    <VecinosColindantes register={register} control={control} />
+                    <VecinosColindantes
+                        setLinderosDimensionesAreas={
+                            setLinderosDimensionesAreas
+                        }
+                        register={register}
+                        control={control}
+                    />
                 ) : undefined}
                 {linderosDimensionesAreas ? (
                     <LinderosDimensionesAreas
+                        setTitulares={setTitulares}
                         register={register}
                         control={control}
                     />

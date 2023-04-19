@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
-function LinderosDimensionesAreas() {
+function LinderosDimensionesAreas(props) {
+    const [mostrarSiguiente, setMostrarSiguiente] = useState(true);
+
+    const handleNext=()=>{
+        props.setTitulares(true)
+        setMostrarSiguiente(false)
+    }
     return (
         <div>
             <hr />
@@ -16,6 +22,7 @@ function LinderosDimensionesAreas() {
                 </label>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.norte.longitud")}
                         type="text"
                         class="form-control"
                         id=""
@@ -27,6 +34,7 @@ function LinderosDimensionesAreas() {
                 </div>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.norte.colinda")}
                         type="text"
                         class="form-control"
                         id=""
@@ -44,6 +52,7 @@ function LinderosDimensionesAreas() {
                 </label>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                    {...props.register("infoPredio.linderos.sur.longitud")}
                         type="text"
                         class="form-control"
                         id=""
@@ -55,6 +64,7 @@ function LinderosDimensionesAreas() {
                 </div>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.sur.colinda")}
                         type="text"
                         class="form-control"
                         id=""
@@ -72,6 +82,7 @@ function LinderosDimensionesAreas() {
                 </label>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.oriente.longitud")}
                         type="text"
                         class="form-control"
                         id=""
@@ -83,6 +94,7 @@ function LinderosDimensionesAreas() {
                 </div>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.oriente.colinda")}
                         type="text"
                         class="form-control"
                         id=""
@@ -100,6 +112,7 @@ function LinderosDimensionesAreas() {
                 </label>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.occidente.longitud")}
                         type="text"
                         class="form-control"
                         id=""
@@ -111,6 +124,7 @@ function LinderosDimensionesAreas() {
                 </div>
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.linderos.occidente.colinda")}
                         type="text"
                         class="form-control"
                         id=""
@@ -129,6 +143,7 @@ function LinderosDimensionesAreas() {
             <div class="col-sm-12">
                 <div class="input-group has-validation col-sm-6">
                     <input
+                        {...props.register("infoPredio.area")}
                         type="text"
                         class="form-control"
                         id=""
@@ -139,6 +154,13 @@ function LinderosDimensionesAreas() {
                     <div class="invalid-feedback">su es requerida.</div>
                 </div>
             </div>
+            <button
+                        className="w-100 btn btn-lg btn-primary my-3 submit"
+                        type="button"
+                        disabled={false}
+                        onClick={handleNext}
+                        style={{ display: mostrarSiguiente ? "block" : "none" }}
+                    >Siguiente</button>
         </div>
     );
 }
